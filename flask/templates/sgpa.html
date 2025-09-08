@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SGPA Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function createFields() {
+            let n = document.getElementById("subjects").value;
+            let container = document.getElementById("fields");
+            container.innerHTML = "";
+            for (let i = 0; i < n; i++) {
+                container.innerHTML += `
+                    <div class="subject-block">
+                        <label>Subject ${i+1} Grade:</label>
+                        <select name="grade${i}" required>
+                            <option value="">--Select Grade--</option>
+                            <option value="O">O (10)</option>
+                            <option value="A+">A+ (9)</option>
+                            <option value="A">A (8)</option>
+                            <option value="B+">B+ (7)</option>
+                            <option value="B">B (6)</option>
+                            <option value="C">C (5)</option>
+                            <option value="U">U (0)</option>
+                        </select>
+                        <label>Credit:</label>
+                        <input type="number" name="credit${i}" min="1" required>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 SGPA Calculator 🔥</h1>
+        <form method="POST">
+            <label>Total Subjects:</label>
+            <input type="number" id="subjects" name="subjects" required>
+            <button type="button" onclick="createFields()">Add</button>
+
+            <div id="fields"></div>
+
+            <button type="submit">Calculate SGPA</button>
+        </form>
+
+        {% if sgpa is not none %}
+        <div class="result">
+            🎉 Your SGPA is: {{ sgpa }}
+        </div>
+        {% endif %}
+
+        <br>
+        <a href="/"><button>Back to Home</button></a>
+    </div>
+</body>
+</html>
